@@ -1,6 +1,8 @@
 # Field schema
 
-Archive shape version 9.
+Layout revision 9. The number counts changes to the field list
+below, not to the corpus. [`archive-layout.md`](archive-layout.md) names the
+three version numbers a delivery carries.
 
 Every field the delivered archive carries. JSON Schemas for the same files
 are in [`../data/schema/`](../data/schema/), and the flat list is in
@@ -13,7 +15,7 @@ It never means zero.
 
 | Field | Description |
 |---|---|
-| `dataset_version` | dataset schema version |
+| `dataset_version` | version of this file's field list |
 | `generated_at` | ISO 8601 timestamp |
 | `archive_contents` | "full" or "incremental" |
 | `audio_format` | audio codec (wav or flac) |

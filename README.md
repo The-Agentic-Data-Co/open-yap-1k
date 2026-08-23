@@ -28,12 +28,15 @@ No audio. This repository holds the documentation, the field schema, the
 corpus statistics and the tooling. The recordings live in two places:
 
 - **A free sample**, on the Hugging Face Hub at [TheAgenticDataCompany/open-yap-1k](https://huggingface.co/datasets/TheAgenticDataCompany/open-yap-1k).
-  Licensed CC-BY-4.0 with a rider, and downloadable today. See
-  [`LICENSE-SAMPLE.txt`](LICENSE-SAMPLE.txt).
+  Licensed CC-BY-4.0 with a rider, and downloadable today. The licence text
+  ships beside the audio on the Hub.
 - **The full corpus**, by request. Offered under the Open Yap 1K Data Use Agreement,
   which is a contract you accept when you ask. Read it in
-  [`LICENSE-CORPUS.txt`](LICENSE-CORPUS.txt), then request the corpus at
-  https://theagenticdatacompany.com/open-yap-1k.
+  [`docs/data-use-agreement.txt`](docs/data-use-agreement.txt), then request
+  the corpus at https://theagenticdatacompany.com/open-yap-1k.
+
+The documentation, the JSON Schemas and the tools in this repository are
+[Apache-2.0](LICENSE.txt). That licence covers no audio.
 
 ## Hear it
 
@@ -72,6 +75,7 @@ Open Yap 1K is the largest publicly available dataset of natural two-speaker Eng
 | [`docs/measurement.md`](docs/measurement.md) | How each published figure is measured |
 | [`docs/provenance.md`](docs/provenance.md) | Collection, consent and quality assurance |
 | [`docs/access.md`](docs/access.md) | How to request the corpus, and what you may do with it |
+| [`docs/data-use-agreement.txt`](docs/data-use-agreement.txt) | The contract for the full corpus, in full |
 
 Machine-readable equivalents are in [`data/`](data/):
 `corpus-stats.json`, `fields.json` and the JSON Schemas in `data/schema/`.

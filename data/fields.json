@@ -1,8 +1,8 @@
 {
-  "archiveShapeVersion": "9",
+  "archiveLayoutRevision": "9",
   "fields": [
     {
-      "description": "dataset schema version",
+      "description": "version of this file's field list",
       "field": "dataset_version",
       "file": "manifest.json"
     },

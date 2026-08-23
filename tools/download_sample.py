@@ -60,7 +60,7 @@ def main() -> int:
         return 1
 
     print(f"\ndownloaded the sample to {path}")
-    print(f"licence: {info['sampleLicense']['name']}, see LICENSE-SAMPLE.txt")
+    print(f"licence: {info['sampleLicense']['name']}, text on the Hub beside the audio")
     print(f"\nthe full corpus is by request at {info['landingUrl']}")
     return 0
 

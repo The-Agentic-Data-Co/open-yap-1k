@@ -13,7 +13,7 @@ python tools/download_sample.py
 CC-BY-4.0, with a rider: you may not attempt to identify a speaker, and you
 may not build voice clones identifiable as a speaker in the corpus. Training
 a general model alongside other data is fine — the rider is about targeting
-an individual. Full text in [`../LICENSE-SAMPLE.txt`](../LICENSE-SAMPLE.txt).
+an individual. The full text ships beside the audio on [the Hub](https://huggingface.co/datasets/TheAgenticDataCompany/open-yap-1k).
 
 ## The full corpus
 
@@ -45,4 +45,4 @@ does not grant this one, and vice versa.
 - Retaining any copy of the dataset after a breach of these terms, or after a written request from The Agentic Data Company
 
 This summary is not the agreement. The agreement is
-[`../LICENSE-CORPUS.txt`](../LICENSE-CORPUS.txt), in full, and it governs.
+[`data-use-agreement.txt`](data-use-agreement.txt), in full, and it governs.

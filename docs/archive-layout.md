@@ -1,7 +1,14 @@
 # Archive layout
 
-Shape version 9. What a delivered corpus
-archive contains, once you have requested and received it.
+What a delivered corpus archive contains, once you have requested and
+received it.
+
+Layout revision 9. The number counts changes to the tree below: which
+files exist, and what each one is named. A delivery carries two other
+numbers, and they count different things:
+
+- **Corpus version 1.0**, in the citation. The release itself.
+- **`dataset_version`**, inside `manifest.json`. The fields of that one file.
 
 ```
 conversations/

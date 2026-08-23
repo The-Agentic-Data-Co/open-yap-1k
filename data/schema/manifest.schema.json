@@ -27,7 +27,7 @@
       "type": "array"
     },
     "dataset_version": {
-      "description": "dataset schema version",
+      "description": "version of this file's field list",
       "type": "string"
     },
     "generated_at": {
