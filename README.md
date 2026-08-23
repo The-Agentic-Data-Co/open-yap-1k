@@ -35,14 +35,9 @@ corpus statistics and the tooling. The recordings live in two places:
   [`LICENSE-CORPUS.txt`](LICENSE-CORPUS.txt), then request the corpus at
   https://theagenticdatacompany.com/open-yap-1k.
 
-Accepting one does not grant the other.
-
 ## Hear it
 
-[![Waveform of a sample conversation](docs/media/sample-openyap1k-01.svg)](https://theagenticdatacompany.com/open-yap-1k#samples)
-
-Both speakers, on one timeline. The image links to a player on the
-release page, because GitHub cannot play audio in a README.
+[![Waveform of a sample conversation](docs/media/sample-openyap1k-01.svg)](https://huggingface.co/datasets/TheAgenticDataCompany/open-yap-1k)
 
 The Hugging Face [dataset viewer](https://huggingface.co/datasets/TheAgenticDataCompany/open-yap-1k) plays every sample row in place.
 To fetch the audio:
@@ -66,10 +61,6 @@ python tools/download_sample.py
 | CALLFRIEND English | 52 | 1996 | narrowband | paid | [LDC2019S21 + LDC2020S08](https://catalog.ldc.upenn.edu/LDC2019S21) |
 
 Open Yap 1K is the largest publicly available dataset of natural two-speaker English conversation, licensed for commercial use. For this comparison, non-commercial releases are left out, as well as scripted corpora and corpora assembled by diarizing in-the-wild audio.
-
-- **Fisher English** — 984 hours in Part 1, 975 in Part 2.
-- **Switchboard-2** — Phases I and II are stated as conversation counts at five minutes each, giving 303 and 373 hours; Phase III states 222.
-- **CALLFRIEND English** — Roughly 26 hours in each of the two dialect editions, non-Southern and Southern.
 
 ## Documentation
 
