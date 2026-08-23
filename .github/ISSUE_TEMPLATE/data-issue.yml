@@ -1,0 +1,67 @@
+name: Report a problem with the data
+description: A wrong transcript, a bad track, or metadata that does not match the audio.
+labels: ["data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. Every number we publish is measured, which means it can be
+        wrong in a way we can find and fix. Please tell us where to look.
+
+  - type: input
+    id: conversation
+    attributes:
+      label: Conversation code
+      description: The `conv_` folder name, e.g. `conv_a1b2c3d4e5f6`.
+      placeholder: conv_
+    validations:
+      required: true
+
+  - type: dropdown
+    id: speaker
+    attributes:
+      label: Which track
+      options:
+        - speaker_a
+        - speaker_b
+        - both
+        - not track-specific
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of problem
+      options:
+        - Transcript does not match the audio
+        - Audio is damaged, silent or cut short
+        - Metadata does not match the audio
+        - A published figure looks wrong
+        - Something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: detail
+    attributes:
+      label: What you found
+      description: Timestamps help. So does what you expected instead.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: source
+    attributes:
+      label: Where you got the data
+      options:
+        - The Hugging Face sample
+        - The full corpus, by request
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        Please do not post audio, transcripts or anything that could identify a
+        speaker. The conversation code is enough for us to find it.

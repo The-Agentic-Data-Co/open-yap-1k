@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "bak": {
+      "description": "background-noise score per measurement, 1-5 (5 = not noticeable). Entry i covers [i*step_seconds, i*step_seconds+measurement_seconds) on the delivered timeline; null where the audio held too little speech to score",
+      "items": {
+        "maximum": 5,
+        "minimum": 1,
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "type": "array"
+    },
+    "conversation_id": {
+      "description": "stable pseudonymous conversation ID",
+      "pattern": "^conv_[0-9a-f]{12}$",
+      "type": "string"
+    },
+    "measurement_count": {
+      "description": "number of entries in each of the arrays below",
+      "type": "integer"
+    },
+    "measurement_seconds": {
+      "description": "seconds of audio each score describes (fixed by the model)",
+      "type": "number"
+    },
+    "metric": {
+      "const": "dnsmos_p835",
+      "description": "always \"dnsmos_p835\" — ITU-T P.835 scores predicted by Microsoft DNSMOS",
+      "type": "string"
+    },
+    "model": {
+      "description": "model file and licence the scores came from",
+      "type": "string"
+    },
+    "ovr": {
+      "description": "overall score per measurement, 1-5; null on the same entries as bak",
+      "items": {
+        "maximum": 5,
+        "minimum": 1,
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "type": "array"
+    },
+    "sig": {
+      "description": "speech-signal score per measurement, 1-5; null on the same entries as bak",
+      "items": {
+        "maximum": 5,
+        "minimum": 1,
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "type": "array"
+    },
+    "speaker_index": {
+      "description": "which speaker stem (\"a\" or \"b\")",
+      "enum": [
+        "a",
+        "b",
+        "agent",
+        "caller"
+      ],
+      "type": "string"
+    },
+    "step_seconds": {
+      "description": "seconds between consecutive measurements; measurements overlap",
+      "type": "number"
+    }
+  },
+  "required": [
+    "conversation_id",
+    "speaker_index",
+    "metric",
+    "model",
+    "measurement_seconds",
+    "step_seconds",
+    "measurement_count",
+    "bak",
+    "sig",
+    "ovr"
+  ],
+  "title": "conv_<id>/speaker_<a|b>_dnsmos.json",
+  "type": "object"
+}

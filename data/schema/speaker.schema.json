@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "accent": {
+      "description": "provenance-derived accent from self-reported demographics (not measured from audio): { origin_country (ISO-3166 childhood country where the accent forms), english_native (true if English is the first language, else false; null if unknown) }",
+      "properties": {
+        "english_native": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "origin_country": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "origin_country",
+        "english_native"
+      ],
+      "type": "object"
+    },
+    "age_range": {
+      "description": "bucketed age range",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "audio_metrics": {
+      "description": "measured from THIS track, at the rate this archive ships. The conformance half (noise floor, silence, bandwidth) and the DNSMOS half land independently, so either can be null while the other carries values; the block itself is null only when neither has been measured",
+      "properties": {
+        "dnsmos_bak_median": {
+          "description": "ITU-T P.835 background-noise median on the 1-5 mean-opinion-score scale, 5 = not noticeable",
+          "maximum": 5,
+          "minimum": 1,
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "dnsmos_ovr_median": {
+          "description": "ITU-T P.835 overall median, 1-5: voice and background together",
+          "maximum": 5,
+          "minimum": 1,
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "dnsmos_sig_median": {
+          "description": "ITU-T P.835 speech-signal median, 1-5: the voice itself",
+          "maximum": 5,
+          "minimum": 1,
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "dnsmos_time_series": {
+          "description": "names the file holding the same three scores over time",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effective_bandwidth_hz": {
+          "description": "the highest frequency carrying real energy: the microphone's limit, not the container's. Null where the track is unmeasured, or carried nothing voiced",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "noise_floor_dbfs": {
+          "description": "the room in dBFS, lower = quieter. Null where the track has not been measured yet, which is most of the catalogue today; on a measured track, null means there is no room tone to measure at all",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "silence_profile": {
+          "description": "what fills this track when the speaker is not talking, measured from the audio rather than from any capture flag. \"room_tone\" (the actual room), \"noise_gated\" (the capture chain wrote digital silence between turns), \"dropout\" (the microphone cut out mid-recording, audio either side), \"no_signal\" (nothing was ever voiced). Null is unmeasured rather than a fifth shape",
+          "enum": [
+            "room_tone",
+            "noise_gated",
+            "dropout",
+            "no_signal",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "silent_while_partner_spoke_pct": {
+          "description": "share of the partner's speech during which this microphone carried no signal, the trailing pad excluded. Read it beside the silence_profile of BOTH tracks: 0 means the overlap survived only where this track is room_tone or noise_gated and the partner voiced something, and a high value means a gate erased that overlap. Two shapes force 0 with no overlap behind it — a no_signal track, whose whole file is the excluded pad, and any track whose PARTNER is no_signal, because the partner's speech is the denominator. A dropout forces neither, because its hole has audio either side of it and is counted. Gated tracks run the whole range, so this is what tells a lightly affected track from a gutted one. Null is unmeasured",
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "noise_floor_dbfs",
+        "silence_profile",
+        "silent_while_partner_spoke_pct",
+        "effective_bandwidth_hz",
+        "dnsmos_bak_median",
+        "dnsmos_sig_median",
+        "dnsmos_ovr_median",
+        "dnsmos_time_series"
+      ],
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "avg_wpm": {
+      "description": "words per minute of SPEAKING time — transcript words divided by the time spent producing them, not by the length of the recording. A speaker silent while their partner talks does not read as a slow one",
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "country": {
+      "description": "self-reported country (ISO-3166 alpha-2)",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "device": {
+      "description": "capture device / audio-route label",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "echo_cancellation": {
+      "description": "whether echo cancellation was applied at capture, as reported by the client (a capture setting, not measured from audio); null where the client reported nothing",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "education_level": {
+      "description": "self-reported education level",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "gender": {
+      "description": "self-reported gender",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "headphones": {
+      "description": "whether the speaker used headphones (authoritative on mobile, heuristic on web)",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "native_language": {
+      "description": "self-reported native language (BCP-47)",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "recording": {
+      "description": "{ sample_rate (Hz — the rate THIS archive ships; per-archive, not fixed), duration_seconds, bit_depth: 16, channels: 1, integrated_lufs (measured LUFS, nullable), true_peak_dbtp (measured dBTP, nullable) } — audio is delivered un-normalized; loudness + true-peak are measured and reported so you can normalize to your own target, and both are measured on the rendition shipped here rather than on any other",
+      "properties": {
+        "bit_depth": {
+          "type": "integer"
+        },
+        "channels": {
+          "type": "integer"
+        },
+        "duration_seconds": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "integrated_lufs": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "sample_rate": {
+          "type": "integer"
+        },
+        "true_peak_dbtp": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "sample_rate",
+        "bit_depth",
+        "channels"
+      ],
+      "type": "object"
+    },
+    "speaker_id": {
+      "description": "pseudonymous speaker ID",
+      "pattern": "^spk_[0-9a-f]{8}$",
+      "type": "string"
+    },
+    "transcript": {
+      "description": "transcript JSON filename",
+      "type": "string"
+    }
+  },
+  "required": [
+    "speaker_id",
+    "age_range",
+    "gender",
+    "country",
+    "education_level",
+    "native_language",
+    "accent",
+    "recording",
+    "transcript",
+    "avg_wpm",
+    "echo_cancellation",
+    "headphones",
+    "device",
+    "audio_metrics"
+  ],
+  "title": "conv_<id>/speaker_<a|b>_meta.json",
+  "type": "object"
+}

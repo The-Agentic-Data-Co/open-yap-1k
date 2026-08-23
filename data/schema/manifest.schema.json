@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "archive_contents": {
+      "description": "\"full\" or \"incremental\"",
+      "enum": [
+        "full",
+        "incremental"
+      ],
+      "type": "string"
+    },
+    "audio_format": {
+      "description": "audio codec (wav or flac)",
+      "enum": [
+        "wav",
+        "flac"
+      ],
+      "type": "string"
+    },
+    "conversation_ids": {
+      "description": "stable pseudonymous conversation IDs",
+      "items": {
+        "pattern": "^conv_[0-9a-f]{12}$",
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "dataset_version": {
+      "description": "dataset schema version",
+      "type": "string"
+    },
+    "generated_at": {
+      "description": "ISO 8601 timestamp",
+      "format": "date-time",
+      "type": "string"
+    },
+    "languages": {
+      "description": "BCP-47 language codes",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "total_conversations": {
+      "description": "number of conversations",
+      "type": "integer"
+    },
+    "total_duration_seconds": {
+      "description": "total duration in seconds",
+      "type": "number"
+    },
+    "transcript_schema_version": {
+      "description": "transcript schema version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "dataset_version",
+    "generated_at",
+    "archive_contents",
+    "audio_format",
+    "total_conversations",
+    "total_duration_seconds",
+    "languages",
+    "conversation_ids",
+    "transcript_schema_version"
+  ],
+  "title": "manifest.json",
+  "type": "object"
+}

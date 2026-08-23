@@ -1,0 +1,47 @@
+name: checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -r tools/requirements.txt ruff
+
+      - name: Lint the Python
+        run: ruff check tools examples
+
+      # Every JSON file here is generated. A parse failure means the generator
+      # emitted something broken, which is worth catching before a reader does.
+      - name: Parse every JSON file
+        run: |
+          for f in $(find data -name '*.json'); do
+            python -m json.tool "$f" > /dev/null || exit 1
+          done
+
+      # The schemas are what a recipient validates a delivered archive against,
+      # so each one must itself be valid 2020-12 JSON Schema — a broken schema
+      # fails every archive it is pointed at.
+      - name: Check the JSON Schemas are valid Schema
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          from jsonschema import Draft202012Validator
+          schemas = sorted(pathlib.Path('data/schema').glob('*.json'))
+          assert schemas, 'data/schema/ is empty'
+          for path in schemas:
+              Draft202012Validator.check_schema(json.loads(path.read_text()))
+          print(f'{len(schemas)} schemas are valid JSON Schema')
+          PY
+
+      - name: Resolve the Hugging Face repository
+        run: python tools/download_sample.py --dry-run

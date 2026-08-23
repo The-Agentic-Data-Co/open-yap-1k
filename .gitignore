@@ -1,0 +1,6 @@
+__pycache__/
+.ruff_cache/
+.venv/
+open-yap-1k-sample/
+train.txt
+test.txt

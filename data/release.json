@@ -1,0 +1,24 @@
+{
+  "citationKey": "openyap1k",
+  "corpusLicense": {
+    "file": "LICENSE-CORPUS.txt",
+    "name": "Open Yap 1K Data Use Agreement",
+    "sha256": "86d2f9ef12426873a2c2754a6b82021a7a635d71fd090661ddb035d952ef521e",
+    "version": "v1"
+  },
+  "landingUrl": "https://theagenticdatacompany.com/open-yap-1k",
+  "name": "Open Yap 1K",
+  "sampleLicense": {
+    "file": "LICENSE-SAMPLE.txt",
+    "huggingFaceRepo": "TheAgenticDataCompany/open-yap-1k",
+    "name": "CC-BY-4.0, with a rider"
+  },
+  "sampleRate": 48000,
+  "schemaVersions": {
+    "conformance": 2,
+    "deliveredArchive": "9"
+  },
+  "slug": "open-yap-1k",
+  "version": "1.0",
+  "year": 2026
+}

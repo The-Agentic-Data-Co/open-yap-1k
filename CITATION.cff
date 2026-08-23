@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use Open Yap 1K, please cite it as below."
+type: dataset
+title: "Open Yap 1K: Channel-Separated English Natural Two-Speaker Conversations"
+authors:
+  - name: The Agentic Data Company
+version: "1.0"
+date-released: "2026-01-01"
+url: "https://theagenticdatacompany.com/open-yap-1k"
+repository: "https://github.com/The-Agentic-Data-Co/open-yap-1k"

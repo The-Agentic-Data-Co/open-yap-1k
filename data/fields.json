@@ -1,0 +1,295 @@
+{
+  "archiveShapeVersion": "9",
+  "fields": [
+    {
+      "description": "dataset schema version",
+      "field": "dataset_version",
+      "file": "manifest.json"
+    },
+    {
+      "description": "ISO 8601 timestamp",
+      "field": "generated_at",
+      "file": "manifest.json"
+    },
+    {
+      "description": "\"full\" or \"incremental\"",
+      "field": "archive_contents",
+      "file": "manifest.json"
+    },
+    {
+      "description": "audio codec (wav or flac)",
+      "field": "audio_format",
+      "file": "manifest.json"
+    },
+    {
+      "description": "number of conversations",
+      "field": "total_conversations",
+      "file": "manifest.json"
+    },
+    {
+      "description": "total duration in seconds",
+      "field": "total_duration_seconds",
+      "file": "manifest.json"
+    },
+    {
+      "description": "BCP-47 language codes",
+      "field": "languages",
+      "file": "manifest.json"
+    },
+    {
+      "description": "stable pseudonymous conversation IDs",
+      "field": "conversation_ids",
+      "file": "manifest.json"
+    },
+    {
+      "description": "transcript schema version",
+      "field": "transcript_schema_version",
+      "file": "manifest.json"
+    },
+    {
+      "description": "stable pseudonymous conversation ID",
+      "field": "conversation_id",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "BCP-47 language tag",
+      "field": "language",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "self-reported relationship between speakers",
+      "field": "relationship",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "conversation length in seconds",
+      "field": "duration_seconds",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "recording date (YYYY-MM-DD)",
+      "field": "recorded_at",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "pseudonymous ID for speaker A",
+      "field": "speaker_a_id",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "pseudonymous ID for speaker B",
+      "field": "speaker_b_id",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "LLM summary of the conversation (2-3 sentences)",
+      "field": "conversation_summary",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "topic tags discussed in the conversation",
+      "field": "topics[]",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "speaker A's share of spoken words, 0..1 (0.5 = equal)",
+      "field": "speech_dominance",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "median turn-taking gap in milliseconds (conversational latency)",
+      "field": "turn_taking_gap_ms",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "pseudonymous speaker ID",
+      "field": "speaker_id",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "bucketed age range",
+      "field": "age_range",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "self-reported gender",
+      "field": "gender",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "self-reported country (ISO-3166 alpha-2)",
+      "field": "country",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "self-reported education level",
+      "field": "education_level",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "self-reported native language (BCP-47)",
+      "field": "native_language",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "provenance-derived accent from self-reported demographics (not measured from audio): { origin_country (ISO-3166 childhood country where the accent forms), english_native (true if English is the first language, else false; null if unknown) }",
+      "field": "accent",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "{ sample_rate (Hz — the rate THIS archive ships; per-archive, not fixed), duration_seconds, bit_depth: 16, channels: 1, integrated_lufs (measured LUFS, nullable), true_peak_dbtp (measured dBTP, nullable) } — audio is delivered un-normalized; loudness + true-peak are measured and reported so you can normalize to your own target, and both are measured on the rendition shipped here rather than on any other",
+      "field": "recording",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "transcript JSON filename",
+      "field": "transcript",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "words per minute of SPEAKING time — transcript words divided by the time spent producing them, not by the length of the recording. A speaker silent while their partner talks does not read as a slow one",
+      "field": "avg_wpm",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "whether echo cancellation was applied at capture, as reported by the client (a capture setting, not measured from audio); null where the client reported nothing",
+      "field": "echo_cancellation",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "whether the speaker used headphones (authoritative on mobile, heuristic on web)",
+      "field": "headphones",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "capture device / audio-route label",
+      "field": "device",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "measured from THIS track, at the rate this archive ships. The conformance half (noise floor, silence, bandwidth) and the DNSMOS half land independently, so either can be null while the other carries values; the block itself is null only when neither has been measured",
+      "field": "audio_metrics",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "the room in dBFS, lower = quieter. Null where the track has not been measured yet, which is most of the catalogue today; on a measured track, null means there is no room tone to measure at all",
+      "field": "audio_metrics.noise_floor_dbfs",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "what fills this track when the speaker is not talking, measured from the audio rather than from any capture flag. \"room_tone\" (the actual room), \"noise_gated\" (the capture chain wrote digital silence between turns), \"dropout\" (the microphone cut out mid-recording, audio either side), \"no_signal\" (nothing was ever voiced). Null is unmeasured rather than a fifth shape",
+      "field": "audio_metrics.silence_profile",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "share of the partner's speech during which this microphone carried no signal, the trailing pad excluded. Read it beside the silence_profile of BOTH tracks: 0 means the overlap survived only where this track is room_tone or noise_gated and the partner voiced something, and a high value means a gate erased that overlap. Two shapes force 0 with no overlap behind it — a no_signal track, whose whole file is the excluded pad, and any track whose PARTNER is no_signal, because the partner's speech is the denominator. A dropout forces neither, because its hole has audio either side of it and is counted. Gated tracks run the whole range, so this is what tells a lightly affected track from a gutted one. Null is unmeasured",
+      "field": "audio_metrics.silent_while_partner_spoke_pct",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "the highest frequency carrying real energy: the microphone's limit, not the container's. Null where the track is unmeasured, or carried nothing voiced",
+      "field": "audio_metrics.effective_bandwidth_hz",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "ITU-T P.835 background-noise median on the 1-5 mean-opinion-score scale, 5 = not noticeable",
+      "field": "audio_metrics.dnsmos_bak_median",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "ITU-T P.835 speech-signal median, 1-5: the voice itself",
+      "field": "audio_metrics.dnsmos_sig_median",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "ITU-T P.835 overall median, 1-5: voice and background together",
+      "field": "audio_metrics.dnsmos_ovr_median",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "names the file holding the same three scores over time",
+      "field": "audio_metrics.dnsmos_time_series",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "stable pseudonymous conversation ID",
+      "field": "conversation_id",
+      "file": "conv_<id>/speaker_<a|b>_transcript.json"
+    },
+    {
+      "description": "which speaker stem (\"a\" or \"b\")",
+      "field": "speaker_index",
+      "file": "conv_<id>/speaker_<a|b>_transcript.json"
+    },
+    {
+      "description": "BCP-47 language tag",
+      "field": "language",
+      "file": "conv_<id>/speaker_<a|b>_transcript.json"
+    },
+    {
+      "description": "full transcript text",
+      "field": "text",
+      "file": "conv_<id>/speaker_<a|b>_transcript.json"
+    },
+    {
+      "description": "array of { word, start, end, type }",
+      "field": "words[]",
+      "file": "conv_<id>/speaker_<a|b>_transcript.json"
+    },
+    {
+      "description": "true if a reviewer corrected the ASR output",
+      "field": "corrections_applied",
+      "file": "conv_<id>/speaker_<a|b>_transcript.json"
+    },
+    {
+      "description": "stable pseudonymous conversation ID",
+      "field": "conversation_id",
+      "file": "conv_<id>/speaker_<a|b>_dnsmos.json"
+    },
+    {
+      "description": "which speaker stem (\"a\" or \"b\")",
+      "field": "speaker_index",
+      "file": "conv_<id>/speaker_<a|b>_dnsmos.json"
+    },
+    {
+      "description": "always \"dnsmos_p835\" — ITU-T P.835 scores predicted by Microsoft DNSMOS",
+      "field": "metric",
+      "file": "conv_<id>/speaker_<a|b>_dnsmos.json"
+    },
+    {
+      "description": "model file and licence the scores came from",
+      "field": "model",
+      "file": "conv_<id>/speaker_<a|b>_dnsmos.json"
+    },
+    {
+      "description": "seconds of audio each score describes (fixed by the model)",
+      "field": "measurement_seconds",
+      "file": "conv_<id>/speaker_<a|b>_dnsmos.json"
+    },
+    {
+      "description": "seconds between consecutive measurements; measurements overlap",
+      "field": "step_seconds",
+      "file": "conv_<id>/speaker_<a|b>_dnsmos.json"
+    },
+    {
+      "description": "number of entries in each of the arrays below",
+      "field": "measurement_count",
+      "file": "conv_<id>/speaker_<a|b>_dnsmos.json"
+    },
+    {
+      "description": "background-noise score per measurement, 1-5 (5 = not noticeable). Entry i covers [i*step_seconds, i*step_seconds+measurement_seconds) on the delivered timeline; null where the audio held too little speech to score",
+      "field": "bak[]",
+      "file": "conv_<id>/speaker_<a|b>_dnsmos.json"
+    },
+    {
+      "description": "speech-signal score per measurement, 1-5; null on the same entries as bak",
+      "field": "sig[]",
+      "file": "conv_<id>/speaker_<a|b>_dnsmos.json"
+    },
+    {
+      "description": "overall score per measurement, 1-5; null on the same entries as bak",
+      "field": "ovr[]",
+      "file": "conv_<id>/speaker_<a|b>_dnsmos.json"
+    }
+  ]
+}

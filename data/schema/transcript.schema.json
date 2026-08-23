@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "conversation_id": {
+      "description": "stable pseudonymous conversation ID",
+      "pattern": "^conv_[0-9a-f]{12}$",
+      "type": "string"
+    },
+    "corrections_applied": {
+      "description": "true if a reviewer corrected the ASR output",
+      "type": "boolean"
+    },
+    "language": {
+      "description": "BCP-47 language tag",
+      "type": "string"
+    },
+    "speaker_index": {
+      "description": "which speaker stem (\"a\" or \"b\")",
+      "enum": [
+        "a",
+        "b",
+        "agent",
+        "caller"
+      ],
+      "type": "string"
+    },
+    "text": {
+      "description": "full transcript text",
+      "type": "string"
+    },
+    "words": {
+      "description": "array of { word, start, end, type }",
+      "items": {
+        "properties": {
+          "end": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "start": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "type": {
+            "enum": [
+              "word",
+              "filler",
+              "laugh",
+              "cough",
+              "noise"
+            ],
+            "type": "string"
+          },
+          "word": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "word",
+          "start",
+          "end",
+          "type"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "conversation_id",
+    "speaker_index",
+    "language",
+    "text",
+    "words",
+    "corrections_applied"
+  ],
+  "title": "conv_<id>/speaker_<a|b>_transcript.json",
+  "type": "object"
+}

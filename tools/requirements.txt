@@ -1,0 +1,4 @@
+huggingface_hub>=0.26
+jsonschema>=4.23
+datasets>=3.0
+soundfile>=0.12

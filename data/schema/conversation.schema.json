@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "conversation_id": {
+      "description": "stable pseudonymous conversation ID",
+      "pattern": "^conv_[0-9a-f]{12}$",
+      "type": "string"
+    },
+    "conversation_summary": {
+      "description": "LLM summary of the conversation (2-3 sentences)",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "duration_seconds": {
+      "description": "conversation length in seconds",
+      "type": "number"
+    },
+    "language": {
+      "description": "BCP-47 language tag",
+      "type": "string"
+    },
+    "recorded_at": {
+      "description": "recording date (YYYY-MM-DD)",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "relationship": {
+      "description": "self-reported relationship between speakers",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "speaker_a_id": {
+      "description": "pseudonymous ID for speaker A",
+      "pattern": "^spk_[0-9a-f]{8}$",
+      "type": "string"
+    },
+    "speaker_b_id": {
+      "description": "pseudonymous ID for speaker B",
+      "pattern": "^spk_[0-9a-f]{8}$",
+      "type": "string"
+    },
+    "speech_dominance": {
+      "description": "speaker A's share of spoken words, 0..1 (0.5 = equal)",
+      "maximum": 1,
+      "minimum": 0,
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "topics": {
+      "description": "topic tags discussed in the conversation",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "turn_taking_gap_ms": {
+      "description": "median turn-taking gap in milliseconds (conversational latency)",
+      "type": [
+        "number",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "conversation_id",
+    "language",
+    "relationship",
+    "duration_seconds",
+    "recorded_at",
+    "speaker_a_id",
+    "speaker_b_id",
+    "conversation_summary",
+    "topics",
+    "speech_dominance",
+    "turn_taking_gap_ms"
+  ],
+  "title": "conv_<id>/meta.json",
+  "type": "object"
+}
