@@ -1,54 +1,72 @@
-# Open Yap 1K
+<p align="center">
+  <a href="https://theagenticdatacompany.com/">
+    <img src="docs/media/agentic-mark.svg" alt="The Agentic Data Company" width="76">
+  </a>
+</p>
 
-**Channel-separated English natural two-speaker conversations**
+<h1 align="center">Open Yap 1K</h1>
 
-The Agentic Data Company advances conversational AI with Open Yap 1K, the largest free collection of natural conversation ever released: 1,000 hours of two-speaker English speech, open to labs and research teams worldwide.
+<p align="center"><strong>1,000 hours of channel-separated English natural two-speaker conversations</strong></p>
 
-With this open release, we aim to close a gap in the literature: conversation recorded as it happens in real life. Fisher and Switchboard assigned partners and topics to maximize variety, but the phone network capped their audio near 4 kHz. Newer corpora record at full bandwidth but still pair strangers. Open Yap 1K assigns nothing: each speaker invites someone they already know and talks freely among friends and family.
+<p align="center">
+  <a href="https://theagenticdatacompany.com/open-yap-1k"><img src="docs/media/request-corpus.svg" alt="Request full corpus" height="36"></a>
+  &nbsp;
+  <a href="https://huggingface.co/datasets/TheAgenticDataCompany/open-yap-1k"><img src="docs/media/explore-sample.svg" alt="Explore free sample" height="36"></a>
+</p>
 
-That choice shows in the speech. People who know each other interrupt more, backchannel more, and leave shorter gaps between turns: the behaviour a full-duplex model has to learn. We compute these dynamics for every conversation (overlap, turn-taking gaps, speaking rate).
+<p align="center">
+  <a href="https://theagenticdatacompany.com/">Website</a> ·
+  <a href="DATASHEET.md">Datasheet</a> ·
+  <a href="docs/schema.md">Schema</a> ·
+  <a href="https://discord.gg/PBvuZQfgw9">Discord</a> ·
+  <a href="https://www.linkedin.com/company/theagenticdataco/">LinkedIn</a>
+</p>
 
-These 1,000 hours are one part of a larger licensed corpus we build with frontier labs and research teams. We release them because progress in conversational AI is slower than it needs to be, and open data is the fastest way to change that for everyone.
+---
+
+Open Yap 1K records conversations as they happen between friends and family. The release preserves separate microphones, natural overlap and word-level timings.
 
 ## At a glance
 
-| | |
-|---|--:|
-| Hours of audio | 1,000 |
-| Conversations | 1,602 |
-| Unique speakers | 239 |
-| Average duration | 37.5 min |
-| Sample rate | 48,000 Hz |
-| Channels | one file per speaker |
-| Transcripts | word-level, with timings |
+| Audio | Conversations | Speakers | Capture |
+|:---:|:---:|:---:|:---:|
+| **1,000 hours** | **1,602** | **239** | **48 kHz, 16-bit PCM** |
 
-## What is in this repository
+The average conversation lasts 37.5 minutes. Each speaker has a separate mono file. Every transcript includes word-level timings.
 
-No audio. This repository holds the documentation, the field schema, the
-corpus statistics and the tooling. The recordings live in two places:
+## Get the data
 
-- **A free sample**, on the Hugging Face Hub at [TheAgenticDataCompany/open-yap-1k](https://huggingface.co/datasets/TheAgenticDataCompany/open-yap-1k).
-  Licensed CC-BY-4.0 with a rider, and downloadable today. The licence text
-  ships beside the audio on the Hub.
-- **The full corpus**, by request. Offered under the Open Yap 1K Data Use Agreement,
-  which is a contract you accept when you ask. Read it in
-  [`docs/data-use-agreement.txt`](docs/data-use-agreement.txt), then request
-  the corpus at https://theagenticdatacompany.com/open-yap-1k.
+> [!NOTE]
+> This repository contains documentation, schemas, measured statistics and tools. The audio is distributed separately.
 
-The documentation, the JSON Schemas and the tools in this repository are
-[Apache-2.0](LICENSE.txt). That licence covers no audio.
+| Free sample | Full corpus |
+|---|---|
+| Listen to and download a free sample on the Hugging Face Hub. | Request all 1,000 hours from The Agentic Data Company. |
+| The sample uses CC BY 4.0 with a rider. Its licence ships beside the audio. | The full corpus uses the [Open Yap 1K Data Use Agreement](docs/data-use-agreement.txt). |
+| **[Open the sample](https://huggingface.co/datasets/TheAgenticDataCompany/open-yap-1k)** | **[Request the corpus](https://theagenticdatacompany.com/open-yap-1k)** |
+
+The documentation, JSON Schemas and tools in this repository use [Apache-2.0](LICENSE.txt). That licence covers no audio.
 
 ## Hear it
 
 [![Waveform of a sample conversation](docs/media/sample-openyap1k-01.svg)](https://huggingface.co/datasets/TheAgenticDataCompany/open-yap-1k)
 
-The Hugging Face [dataset viewer](https://huggingface.co/datasets/TheAgenticDataCompany/open-yap-1k) plays every sample row in place.
-To fetch the audio:
+The Hugging Face [dataset viewer](https://huggingface.co/datasets/TheAgenticDataCompany/open-yap-1k) plays every sample row. Download the sample with:
 
 ```bash
 pip install -r tools/requirements.txt
 python tools/download_sample.py
 ```
+
+## Why natural conversation matters
+
+Fisher and Switchboard paired strangers around assigned topics. Telephone networks also limited their audio to about 4 kHz. Newer corpora record wider bandwidth, but many still pair strangers.
+
+Open Yap 1K assigns no partner or topic. Each participant invites someone they already know and talks freely.
+
+Familiar speakers interrupt more, use more backchannels and leave shorter turn gaps. We publish overlap, turn-taking gaps and speaking rate for every conversation.
+
+These 1,000 hours come from a larger licensed corpus built with voice AI labs and research teams. We released this part so researchers can train and test conversational systems with natural, commercially usable speech.
 
 ## Comparable datasets
 
@@ -63,22 +81,21 @@ python tools/download_sample.py
 | CALLHOME English | 56 | 1996 | narrowband | paid | [LDC97S42](https://catalog.ldc.upenn.edu/LDC97S42) |
 | CALLFRIEND English | 52 | 1996 | narrowband | paid | [LDC2019S21 + LDC2020S08](https://catalog.ldc.upenn.edu/LDC2019S21) |
 
-Open Yap 1K is the largest publicly available dataset of natural two-speaker English conversation, licensed for commercial use. For this comparison, non-commercial releases are left out, as well as scripted corpora and corpora assembled by diarizing in-the-wild audio.
+Open Yap 1K is the largest publicly available dataset of natural two-speaker English conversation licensed for commercial use. This comparison excludes non-commercial releases, scripted corpora and corpora assembled by diarising recorded media.
 
 ## Documentation
 
 | File | What it answers |
 |---|---|
-| [`DATASHEET.md`](DATASHEET.md) | Who made this, how, from whom, and what it should not be used for |
+| [`DATASHEET.md`](DATASHEET.md) | Who made this, how, from whom and what it should not be used for |
 | [`docs/schema.md`](docs/schema.md) | Every field in the delivered archive |
 | [`docs/archive-layout.md`](docs/archive-layout.md) | What a delivered archive looks like on disk |
 | [`docs/measurement.md`](docs/measurement.md) | How each published figure is measured |
 | [`docs/provenance.md`](docs/provenance.md) | Collection, consent and quality assurance |
-| [`docs/access.md`](docs/access.md) | How to request the corpus, and what you may do with it |
-| [`docs/data-use-agreement.txt`](docs/data-use-agreement.txt) | The contract for the full corpus, in full |
+| [`docs/access.md`](docs/access.md) | How to request the corpus and what you may do with it |
+| [`docs/data-use-agreement.txt`](docs/data-use-agreement.txt) | The full-corpus contract |
 
-Machine-readable equivalents are in [`data/`](data/):
-`corpus-stats.json`, `fields.json` and the JSON Schemas in `data/schema/`.
+Machine-readable equivalents live in [`data/`](data/): `corpus-stats.json`, `fields.json` and the JSON Schemas in `data/schema/`.
 
 ## Citation
 
@@ -95,7 +112,16 @@ Machine-readable equivalents are in [`data/`](data/):
 
 ## Acknowledgements
 
-Background-noise scores come from DNSMOS P.835 sig_bak_ovr.onnx (microsoft/DNS-Challenge, CC BY 4.0).
+Background-noise scores come from DNSMOS P.835 `sig_bak_ovr.onnx` from [Microsoft's DNS Challenge](https://github.com/microsoft/DNS-Challenge), licensed under CC BY 4.0.
 
-Above all, to the 239 people who recorded these conversations
-and agreed to their release. The corpus is their voices.
+We thank the 239 people who recorded these conversations and agreed to their release. The corpus is their voices.
+
+---
+
+<p align="center">
+  <a href="https://theagenticdatacompany.com/"><strong>The Agentic Data Company</strong></a><br>
+  <a href="https://discord.gg/PBvuZQfgw9">Discord</a> ·
+  <a href="https://github.com/The-Agentic-Data-Co">GitHub</a> ·
+  <a href="https://huggingface.co/TheAgenticDataCompany">Hugging Face</a> ·
+  <a href="https://www.linkedin.com/company/theagenticdataco/">LinkedIn</a>
+</p>
