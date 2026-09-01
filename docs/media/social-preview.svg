@@ -6,7 +6,7 @@
   <rect x="80" y="108" width="1120" height="1" fill="#d8d7d1"/>
 
   <text x="80" y="212" fill="#262323" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="500" letter-spacing="-2">Open Yap 1K</text>
-  <text x="82" y="263" fill="#5b5852" font-family="Arial, Helvetica, sans-serif" font-size="25">Channel-separated English natural two-speaker conversations</text>
+  <text x="82" y="263" fill="#5b5852" font-family="Arial, Helvetica, sans-serif" font-size="25">The world's largest open dataset of natural two-speaker English conversation</text>
 
   <g font-family="Arial, Helvetica, sans-serif">
     <text x="82" y="338" fill="#262323" font-size="27" font-weight="600">1,000 hours</text>

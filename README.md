@@ -1,12 +1,6 @@
-<p align="center">
-  <a href="https://theagenticdatacompany.com/">
-    <img src="docs/media/agentic-mark.svg" alt="The Agentic Data Company" width="76">
-  </a>
-</p>
-
 <h1 align="center">Open Yap 1K</h1>
 
-<p align="center"><strong>1,000 hours of channel-separated English natural two-speaker conversations</strong></p>
+<p align="center"><strong>The world's largest open dataset of natural two-speaker English conversation.</strong><br>1,000 hours of channel-separated audio.</p>
 
 <p align="center">
   <a href="https://theagenticdatacompany.com/open-yap-1k"><img src="docs/media/request-corpus.svg" alt="Request full corpus" height="36"></a>
@@ -17,35 +11,16 @@
 <p align="center">
   <a href="https://theagenticdatacompany.com/">Website</a> ·
   <a href="DATASHEET.md">Datasheet</a> ·
-  <a href="docs/schema.md">Schema</a> ·
-  <a href="https://discord.gg/PBvuZQfgw9">Discord</a> ·
-  <a href="https://www.linkedin.com/company/theagenticdataco/">LinkedIn</a>
+  <a href="docs/schema.md">Schema</a>
 </p>
 
 ---
-
-Open Yap 1K records conversations as they happen between friends and family. The release preserves separate microphones, natural overlap and word-level timings.
 
 ## At a glance
 
 | Audio | Conversations | Speakers | Capture |
 |:---:|:---:|:---:|:---:|
 | **1,000 hours** | **1,602** | **239** | **48 kHz, 16-bit PCM** |
-
-The average conversation lasts 37.5 minutes. Each speaker has a separate mono file. Every transcript includes word-level timings.
-
-## Get the data
-
-> [!NOTE]
-> This repository contains documentation, schemas, measured statistics and tools. The audio is distributed separately.
-
-| Free sample | Full corpus |
-|---|---|
-| Listen to and download a free sample on the Hugging Face Hub. | Request all 1,000 hours from The Agentic Data Company. |
-| The sample uses CC BY 4.0 with a rider. Its licence ships beside the audio. | The full corpus uses the [Open Yap 1K Data Use Agreement](docs/data-use-agreement.txt). |
-| **[Open the sample](https://huggingface.co/datasets/TheAgenticDataCompany/open-yap-1k)** | **[Request the corpus](https://theagenticdatacompany.com/open-yap-1k)** |
-
-The documentation, JSON Schemas and tools in this repository use [Apache-2.0](LICENSE.txt). That licence covers no audio.
 
 ## Hear it
 
