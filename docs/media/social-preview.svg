@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title description">
+  <title id="title">Open Yap 1K</title>
+  <desc id="description">Social preview for a 1,000-hour corpus of channel-separated English natural conversation.</desc>
+  <rect width="1280" height="640" fill="#f7f7f4"/>
+  <text x="80" y="78" fill="#262323" font-family="Georgia, 'Times New Roman', serif" font-size="25">The Agentic Data Company</text>
+  <rect x="80" y="108" width="1120" height="1" fill="#d8d7d1"/>
+
+  <text x="80" y="212" fill="#262323" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="500" letter-spacing="-2">Open Yap 1K</text>
+  <text x="82" y="263" fill="#5b5852" font-family="Arial, Helvetica, sans-serif" font-size="25">The world's largest open dataset of natural two-speaker English conversation</text>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="82" y="338" fill="#262323" font-size="27" font-weight="600">1,000 hours</text>
+    <text x="282" y="338" fill="#262323" font-size="27" font-weight="600">1,602 conversations</text>
+    <text x="570" y="338" fill="#262323" font-size="27" font-weight="600">239 speakers</text>
+    <text x="765" y="338" fill="#262323" font-size="27" font-weight="600">48 kHz PCM</text>
+  </g>
+
+  <g font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" letter-spacing="1.5">
+    <text x="82" y="400" fill="#5b5852">SPEAKER A</text>
+    <text x="82" y="500" fill="#8a7f7a">SPEAKER B</text>
+  </g>
+
+  <path d="M80 445V442L110 437L140 416L170 402L200 412L230 432L260 440L290 441L320 434L350 425L380 430L410 442L440 443L470 420L500 406L530 432L560 443L590 443L620 440L650 427L680 417L710 435L740 443L770 443L800 430L830 416L860 440L890 443L920 443L950 439L980 425L1010 414L1040 437L1070 443L1100 443L1130 433L1160 425L1200 439V445Z" fill="#262323"/>
+  <path d="M80 445V442L110 437L140 416L170 402L200 412L230 432L260 440L290 441L320 434L350 425L380 430L410 442L440 443L470 420L500 406L530 432L560 443L590 443L620 440L650 427L680 417L710 435L740 443L770 443L800 430L830 416L860 440L890 443L920 443L950 439L980 425L1010 414L1040 437L1070 443L1100 443L1130 433L1160 425L1200 439V445Z" fill="#262323" transform="translate(0 890) scale(1 -1)"/>
+  <path d="M80 540V538L110 536L140 528L170 518L200 522L230 534L260 538L290 539L320 537L350 532L380 535L410 539L440 539L470 531L500 520L530 533L560 539L590 539L620 538L650 532L680 525L710 536L740 539L770 539L800 534L830 526L860 538L890 539L920 539L950 537L980 532L1010 523L1040 536L1070 539L1100 539L1130 535L1160 530L1200 537V540Z" fill="#8a7f7a"/>
+  <path d="M80 540V538L110 536L140 528L170 518L200 522L230 534L260 538L290 539L320 537L350 532L380 535L410 539L440 539L470 531L500 520L530 533L560 539L590 539L620 538L650 532L680 525L710 536L740 539L770 539L800 534L830 526L860 538L890 539L920 539L950 537L980 532L1010 523L1040 536L1070 539L1100 539L1130 535L1160 530L1200 537V540Z" fill="#8a7f7a" transform="translate(0 1080) scale(1 -1)"/>
+  <rect x="80" y="600" width="92" height="4" rx="2" fill="#0087ff"/>
+</svg>
