@@ -18,6 +18,10 @@
       "description": "conversation length in seconds",
       "type": "number"
     },
+    "is_segment": {
+      "description": "true when this folder is one kept stretch of a longer recording",
+      "type": "boolean"
+    },
     "language": {
       "description": "BCP-47 language tag",
       "type": "string"
@@ -32,6 +36,46 @@
     },
     "relationship": {
       "description": "self-reported relationship between speakers",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "segment_count": {
+      "description": "how many kept stretches that recording was cut into; null when not a segment",
+      "minimum": 1,
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "segment_end_seconds": {
+      "description": "where this stretch ends on the source recording's clock, in seconds; null when not a segment",
+      "minimum": 0,
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "segment_index": {
+      "description": "0-based position among the kept stretches of that recording; null when not a segment",
+      "minimum": 0,
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "segment_start_seconds": {
+      "description": "where this stretch starts on the source recording's clock, in seconds; null when not a segment",
+      "minimum": 0,
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "source_conversation_id": {
+      "description": "pseudonymous ID of the recording this stretch was cut from; null when not a segment",
+      "pattern": "^conv_[0-9a-f]{12}$",
       "type": [
         "string",
         "null"
@@ -69,6 +113,14 @@
         "number",
         "null"
       ]
+    },
+    "turns_per_minute": {
+      "description": "speaker handoffs per minute of complete aligned recording, excluding short overlapping backchannels",
+      "minimum": 0,
+      "type": [
+        "number",
+        "null"
+      ]
     }
   },
   "required": [
@@ -82,7 +134,14 @@
     "conversation_summary",
     "topics",
     "speech_dominance",
-    "turn_taking_gap_ms"
+    "turn_taking_gap_ms",
+    "turns_per_minute",
+    "is_segment",
+    "source_conversation_id",
+    "segment_index",
+    "segment_count",
+    "segment_start_seconds",
+    "segment_end_seconds"
   ],
   "title": "conv_<id>/meta.json",
   "type": "object"

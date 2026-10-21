@@ -3,7 +3,7 @@
 What a delivered corpus archive contains, once you have requested and
 received it.
 
-Layout revision 9. The number counts changes to the tree below: which
+Layout revision 16. The number counts changes to the tree below: which
 files exist, and what each one is named. A delivery carries two other
 numbers, and they count different things:
 
@@ -11,20 +11,19 @@ numbers, and they count different things:
 - **`dataset_version`**, inside `manifest.json`. The fields of that one file.
 
 ```
-conversations/
-  manifest.json
-  conv_a1b2c3d4e5f6/
-    speaker_a.flac   (or .wav)
-    speaker_b.flac   (or .wav)
-    meta.json
-    speaker_a_meta.json
-    speaker_b_meta.json
-    speaker_a_transcript.json
-    speaker_b_transcript.json
-    speaker_a_dnsmos.json
-    speaker_b_dnsmos.json
-  conv_7f3e9d014a6c/
-    ...
+conversations/conv_<id>/meta.json
+conversations/conv_<id>/speaker_a.flac
+conversations/conv_<id>/speaker_a_dnsmos.json
+conversations/conv_<id>/speaker_a_meta.json
+conversations/conv_<id>/speaker_a_signal_metrics.json
+conversations/conv_<id>/speaker_a_transcript.json
+conversations/conv_<id>/speaker_b.flac
+conversations/conv_<id>/speaker_b_dnsmos.json
+conversations/conv_<id>/speaker_b_meta.json
+conversations/conv_<id>/speaker_b_signal_metrics.json
+conversations/conv_<id>/speaker_b_transcript.json
+conversations/manifest.json
+conversations/verification.json
 ```
 
 ## What the names mean
@@ -36,6 +35,10 @@ conversations/
   There is no mixed track: the separation is the product.
 - `*_dnsmos.json` — the background-noise time series. **Absent, not empty,**
   when a track was not scored. An absent file means no measurement exists.
+- `*_signal_metrics.json` — one-second SNR, noise-floor, and clipping values.
+  It is absent when matching measurements do not exist for the delivered audio.
+- `verification.json` accompanies measurement-version-4 archives. It lists SHA-256 hashes
+  for delivered files and decoded audio samples. The validator checks file hashes before schemas.
 
 ## Audio
 

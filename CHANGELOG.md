@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-21 measurement update
+
+Effective bandwidth uses the frequency below which 99.99% of measured speech energy lies.
+
+Metadata and corpus statistics now come from verified audio deliveries.
+The selected conversations and decoded audio remain unchanged.
+
 ## 1.0
 
 First release.

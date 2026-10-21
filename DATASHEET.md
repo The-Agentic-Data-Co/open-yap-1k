@@ -16,7 +16,7 @@ needs to be, and open data is the fastest way to change that.
 
 ## Composition
 
-**What does it contain?** 1,602 conversations, 1,000
+**What does it contain?** 1,602 conversations, 1,000.245
 hours, 239 speakers. Each conversation is two people who already know
 each other, talking freely. Both sides are recorded separately and shipped as
 separate files on one timeline.

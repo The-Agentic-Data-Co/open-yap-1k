@@ -3,15 +3,15 @@
 ## The free sample
 
 Published on the Hugging Face Hub at [TheAgenticDataCompany/open-yap-1k](https://huggingface.co/datasets/TheAgenticDataCompany/open-yap-1k).
-Accept the terms on the dataset page, then:
+No sign-up and no form. To fetch it:
 
 ```bash
 pip install -r tools/requirements.txt
 python tools/download_sample.py
 ```
 
-CC-BY-4.0, with a rider: you may not attempt to identify a speaker, and you
-may not build voice clones identifiable as a speaker in the corpus. Training
+CC-BY-4.0, with a rider that asks two things: do not attempt to identify a
+speaker, and do not build voice clones identifiable as a speaker in the corpus. Training
 a general model alongside other data is fine — the rider is about targeting
 an individual. The full text ships beside the audio on [the Hub](https://huggingface.co/datasets/TheAgenticDataCompany/open-yap-1k).
 
@@ -22,7 +22,7 @@ Request it at https://theagenticdatacompany.com/open-yap-1k. Three steps:
 1. **Request.** Tell us who you are and what you want it for.
 2. **Review.** We read it and reply.
 3. **Delivery.** Approved recipients get a portal account, and either a
-   direct download or delivery into their own S3 bucket.
+   direct download or delivery into their own S3-compatible bucket.
 
 It is offered under the Open Yap 1K Data Use Agreement (v1), which is
 a contract you accept when you request it. Accepting the sample's licence

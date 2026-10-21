@@ -32,30 +32,24 @@
       ]
     },
     "audio_metrics": {
-      "description": "measured from THIS track, at the rate this archive ships. The conformance half (noise floor, silence, bandwidth) and the DNSMOS half land independently, so either can be null while the other carries values; the block itself is null only when neither has been measured",
+      "description": "measured from THIS track, at the rate this archive ships. Conformance, DNSMOS, and physical time-series measurements land independently, so one can exist while another is null; the block itself is null only when none exists",
       "properties": {
         "dnsmos_bak_median": {
-          "description": "ITU-T P.835 background-noise median on the 1-5 mean-opinion-score scale, 5 = not noticeable",
-          "maximum": 5,
-          "minimum": 1,
+          "description": "ITU-T P.835 background-noise median on the nominal 1-5 mean-opinion-score scale, 5 = not noticeable; calibrated predictions can fall outside this range",
           "type": [
             "number",
             "null"
           ]
         },
         "dnsmos_ovr_median": {
-          "description": "ITU-T P.835 overall median, 1-5: voice and background together",
-          "maximum": 5,
-          "minimum": 1,
+          "description": "ITU-T P.835 overall median, nominal 1-5: voice and background together; calibrated predictions can fall outside this range",
           "type": [
             "number",
             "null"
           ]
         },
         "dnsmos_sig_median": {
-          "description": "ITU-T P.835 speech-signal median, 1-5: the voice itself",
-          "maximum": 5,
-          "minimum": 1,
+          "description": "ITU-T P.835 speech-signal median, nominal 1-5: the voice itself; calibrated predictions can fall outside this range",
           "type": [
             "number",
             "null"
@@ -69,7 +63,7 @@
           ]
         },
         "effective_bandwidth_hz": {
-          "description": "the highest frequency carrying real energy: the microphone's limit, not the container's. Null where the track is unmeasured, or carried nothing voiced",
+          "description": "effective bandwidth in Hz. Measurement version 4 uses the 99.99% energy cutoff during detected speech. Null when unmeasured or unmeasurable",
           "type": [
             "number",
             "null"
@@ -79,6 +73,13 @@
           "description": "the room in dBFS, lower = quieter. Null where the track has not been measured yet, which is most of the catalogue today; on a measured track, null means there is no room tone to measure at all",
           "type": [
             "number",
+            "null"
+          ]
+        },
+        "signal_metrics_time_series": {
+          "description": "names the file holding SNR, noise floor, and clipping percentage over time",
+          "type": [
+            "string",
             "null"
           ]
         },
@@ -112,7 +113,8 @@
         "dnsmos_bak_median",
         "dnsmos_sig_median",
         "dnsmos_ovr_median",
-        "dnsmos_time_series"
+        "dnsmos_time_series",
+        "signal_metrics_time_series"
       ],
       "type": [
         "object",
@@ -176,7 +178,7 @@
       ]
     },
     "recording": {
-      "description": "{ sample_rate (Hz — the rate THIS archive ships; per-archive, not fixed), duration_seconds, bit_depth: 16, channels: 1, integrated_lufs (measured LUFS, nullable), true_peak_dbtp (measured dBTP, nullable) } — audio is delivered un-normalized; loudness + true-peak are measured and reported so you can normalize to your own target, and both are measured on the rendition shipped here rather than on any other",
+      "description": "{ sample_rate (delivered Hz), original_sample_rate (verified native capture Hz), duration_seconds, bit_depth: 16, channels: 1, integrated_lufs (measured LUFS, nullable), true_peak_dbtp (measured dBTP, nullable), loudness_normalization (present only on a normalized archive) } — audio is delivered at its recorded level unless the archive was built with a loudness normalization setting; loudness + true-peak are measured on the rendition shipped here, after any normalization, rather than on any other, so you can normalize to your own target",
       "properties": {
         "bit_depth": {
           "type": "integer"
@@ -196,6 +198,163 @@
             "null"
           ]
         },
+        "loudness_normalization": {
+          "properties": {
+            "conversation_after": {
+              "description": "the conversation level in the chosen measure after the change; null for per-track settings",
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "conversation_before": {
+              "description": "the conversation level in the chosen measure before the change; null for per-track settings",
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "gain_db": {
+              "description": "the volume change applied to this track, in dB",
+              "type": "number"
+            },
+            "limited_by": {
+              "description": "\"clipping\" = the change stopped just below full scale, so the result is below the target; \"unmeasurable\" = nothing to measure, so the track is unchanged; null when the target was reached",
+              "enum": [
+                "clipping",
+                "unmeasurable",
+                null
+              ],
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "measure": {
+              "description": "\"lufs\" = loudness (ITU-R BS.1770), \"rms\" = average level over the whole file including pauses, \"peak\" = the loudest sample",
+              "enum": [
+                "lufs",
+                "rms",
+                "peak"
+              ],
+              "type": "string"
+            },
+            "method": {
+              "const": "constant_gain",
+              "description": "\"constant_gain\": one volume change for the whole track, with no compression or limiting",
+              "type": "string"
+            },
+            "scope": {
+              "description": "\"conversation\" = one shared change for every speaker in the conversation; \"track\" = a separate change for each track",
+              "enum": [
+                "conversation",
+                "track"
+              ],
+              "type": "string"
+            },
+            "setting": {
+              "description": "the setting as scope:measure:target, e.g. conversation:rms:-20",
+              "pattern": "^(conversation|track):(lufs|rms|peak):(0|-[1-9][0-9]?)$",
+              "type": "string"
+            },
+            "target": {
+              "description": "the level the setting asks for, e.g. -20",
+              "type": "integer"
+            },
+            "target_reached": {
+              "description": "true when the result is within 0.1 dB of the target",
+              "type": "boolean"
+            },
+            "track_after": {
+              "description": "{ lufs, rms_dbfs, sample_peak_dbfs } of this track as delivered",
+              "properties": {
+                "lufs": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "rms_dbfs": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "sample_peak_dbfs": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "lufs",
+                "rms_dbfs",
+                "sample_peak_dbfs"
+              ],
+              "type": "object"
+            },
+            "track_before": {
+              "description": "{ lufs, rms_dbfs, sample_peak_dbfs } of this track before the change",
+              "properties": {
+                "lufs": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "rms_dbfs": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "sample_peak_dbfs": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "lufs",
+                "rms_dbfs",
+                "sample_peak_dbfs"
+              ],
+              "type": "object"
+            },
+            "unit": {
+              "description": "\"LUFS\" for lufs, \"dBFS\" for rms and peak",
+              "enum": [
+                "LUFS",
+                "dBFS"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "setting",
+            "scope",
+            "measure",
+            "target",
+            "unit",
+            "method",
+            "gain_db",
+            "target_reached",
+            "limited_by",
+            "conversation_before",
+            "conversation_after",
+            "track_before",
+            "track_after"
+          ],
+          "type": "object"
+        },
+        "original_sample_rate": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
         "sample_rate": {
           "type": "integer"
         },
@@ -208,6 +367,7 @@
       },
       "required": [
         "sample_rate",
+        "original_sample_rate",
         "bit_depth",
         "channels"
       ],

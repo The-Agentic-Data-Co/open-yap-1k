@@ -1,12 +1,6 @@
-"""Download the Open Yap 1K sample from the Hugging Face Hub.
+"""Download the public Open Yap 1K sample from the Hugging Face Hub.
 
-The repository is gated: the dataset page is public, but the files need an
-authenticated account that has accepted the terms once. A bare 401 from the
-shop window's own tool is worse than no tool, so this checks for a token first
-and says exactly what to do.
-
-The full corpus is not here and is not downloadable. Request it at the landing
-page printed below.
+Request the full corpus at the landing page printed below.
 """
 
 from __future__ import annotations

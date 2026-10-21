@@ -1,28 +1,60 @@
 # How the figures are measured
 
-Conformance schema version 2.
+Conformance schema version 4.
 
-Every number we publish about this corpus is measured from the audio and the
-transcripts, not estimated and not claimed. This page states each method and
-each threshold, so you can reproduce any figure.
+Audio measurements describe the delivered tracks. Speaker demographics come from speaker reports.
 
-**What we publish is the method, not the code.** You can recompute any figure
-from what is here, but you cannot rerun our exact implementation, so a value
-you compute may differ in the last digit. Every constant that would explain
-such a difference is stated below.
+## Effective bandwidth method
+
+Conformance schema 4 averages power spectra from contiguous speech-active windows across the complete recording.
+Speech detection uses 20 ms RMS frames and threshold max(3 × percentile20(RMS), 0.004). It fills gaps shorter than 160 ms and removes runs shorter than 160 ms.
+The transform size is 2^floor(log2(sample_rate × 0.1)), with 50% overlap. At 48 kHz this is 4,096 samples.
+A window contributes when its centre is speech-active. Subtract its mean and apply the periodic Hann window: 0.5 − 0.5 × cos(2πi/N).
+Square the complex transform magnitudes. Double positive-frequency bins except Nyquist, then average across windows.
+Effective bandwidth is the lowest frequency reaching 99.99% of cumulative power in this unsmoothed mean spectrum, rounded to the nearest hertz.
+No usable speech-active spectrum produces null. The result includes noise during selected windows and is not a calibrated microphone response.
+
+## Turn rate
+
+Turn-metrics schema version 1.
+
+Energy-based voice activity detection finds speech intervals on the aligned
+48 kHz master speaker pair. Each speaker change after the first start is a reply
+or an interruption. A segment at most one second long is a backchannel when
+it overlaps the partner and has one second of that speaker's silence on each
+side. Backchannels do not count as turns.
+
+`turns_per_minute = (reply_count + interruption_count) × 60 ÷ duration_seconds`.
+The duration covers the complete aligned recording, including silence.
+
+## Signal time series
+
+Signal-metrics schema version 1; method `yaproom_energy_vad_minstats_v1`.
+
+Each array has one value per second on the delivered track's timeline.
+Entry i starts at i × step_seconds; the final entry ends at duration_seconds.
+Each array has measurement_count = ceil(duration_seconds ÷ step_seconds) entries.
+Twenty-millisecond frames feed the same energy voice-activity detector as
+the conformance report.
+
+The noise floor is the median, within that second, of a centred 1.5-second
+sliding-minimum power track. Voiced frames, frames that are at least half
+exact zero, and frames at the 16-bit converter floor do not contribute.
+A track needs at least 100 live non-speech frames before any noise-floor
+or SNR value is reported.
+
+SNR is the speech-frame RMS level in dBFS minus the local noise floor.
+It is null where that second has no measured speech or no measured floor.
+Clipping is the percentage of samples whose absolute level is at least 0.999.
 
 ## Signal
 
 ### Effective bandwidth
 
-Median 11.6 kHz, 5th to 95th percentile
-6.9 to 22.3.
+Median 10.3 kHz, 5th to 95th percentile
+5.6 to 18.1.
 
-The highest frequency at which a track still carries real sound. A file header can say 48 kHz while the audio inside stops at 8 kHz.
-
-We read the frequency spectrum of a track’s speech in one pass, up to 262,144 samples, or 5.5 seconds at 48 kHz. We smooth it over 100 Hz either side, then take the highest frequency within 60 dB of the loudest.
-
-Telephone audio cliffs near 4 kHz. A Bluetooth headset in hands-free mode caps near 8 kHz. It ships as `effective_bandwidth_hz`.
+Frequency below which 99.99% of the measured energy lies during detected speech.
 
 ### DNSMOS background noise
 
@@ -59,19 +91,15 @@ CANDOR, a large public corpus of natural conversation, reports 380 milliseconds.
 
 ### Speech dominance
 
-Median 0.56 share, 5th to 95th percentile
-0.27 to 0.81.
+Median 0.51 share, 5th to 95th percentile
+0.24 to 0.77.
 
-Speaker A’s share of the talking, where 0.5 is an even split.
-
-We count the 20 millisecond frames in which A is voiced, then divide by the frames in which either speaker is. Overlapping speech counts for both people, so the two shares add up to more than 1 when they talk at once.
-
-The metadata field `speech_dominance` is a different number. That one is A’s share of the transcript words.
+Speaker A’s share of spoken words, where 0.5 is an even split.
 
 ### Speaking rate
 
-Median 186 words/min, 5th to 95th percentile
-156 to 218.
+Median 188 words/min, 5th to 95th percentile
+159 to 221.
 
 How fast a person speaks, in words per minute of actual speaking time.
 
@@ -88,8 +116,8 @@ Pass rates against a stated threshold, over delivered tracks.
 | Track pairs sharing a common timeline anchor | Required | 100.00% |
 | Conversations with word-level transcripts | Both speakers | 100.00% |
 | Tracks whose background noise is not intrusive | Median BAK at least 3.0 (P.835) | 100.00% |
-| Tracks with zero clipped samples | Under 0.1% of samples at full scale | 98.38% |
-| Tracks above telephone bandwidth | Bandwidth at least 6.0 kHz | 96.44% |
+| Tracks below the clipping threshold | Under 0.1% of samples at full scale | 99.13% |
+| Tracks with effective bandwidth above 6 kHz | Effective bandwidth at least 6.0 kHz | 92.01% |
 
 **A failing track is still delivered.** This table reports the corpus, it does
 not filter it. A buyer who wants to exclude flagged tracks has the per-track
@@ -122,6 +150,19 @@ The window length is not a choice: DNSMOS P.835 sig_bak_ovr.onnx (microsoft/DNS-
 at that length and only at that length. Windows below the speech share are
 dropped, because the model only hears a background behind a voice.
 
+The physical signal series, verbatim:
+
+| Constant | Value |
+|---|--:|
+| Frame | 0.02 s |
+| Measurement | 1 s |
+| Step | 1 s |
+| Noise-floor context | 1.5 s |
+| Exact-zero exclusion | 0.5 |
+| Minimum live noise frames | 100 |
+| Digital-silence floor | -90 dBFS |
+| Clipping sample threshold | 0.999 |
+
 ## Coverage
 
 Each figure is only as true as the share of the corpus that carries the
@@ -131,7 +172,7 @@ underlying measurement. Every section reports its own denominator:
 |---|--:|--:|
 | population | 239 | 239 |
 | conversationLength | 1,602 | 1,602 |
-| relationship | 1,602 | 1,602 |
+| turnsPerMinute | 1,602 | 1,602 |
 | wordsPerConversation | 1,602 | 1,602 |
 | vocabulary | 3,204 | 3,204 |
 | audio | 1,602 | 1,602 |

@@ -1,5 +1,5 @@
 {
-  "archiveLayoutRevision": "9",
+  "archiveLayoutRevision": "16",
   "fields": [
     {
       "description": "version of this file's field list",
@@ -19,6 +19,11 @@
     {
       "description": "audio codec (wav or flac)",
       "field": "audio_format",
+      "file": "manifest.json"
+    },
+    {
+      "description": "sample rate of every delivered audio file, in Hz",
+      "field": "sample_rate",
       "file": "manifest.json"
     },
     {
@@ -44,6 +49,16 @@
     {
       "description": "transcript schema version",
       "field": "transcript_schema_version",
+      "file": "manifest.json"
+    },
+    {
+      "description": "audio measurement method version",
+      "field": "measurement_schema_version",
+      "file": "manifest.json"
+    },
+    {
+      "description": "present only when the archive was built with a loudness normalization setting: { setting, scope (\"conversation\" or \"track\"), measure (\"lufs\", \"rms\" or \"peak\"), target, unit, method (\"constant_gain\"), version }",
+      "field": "loudness_normalization",
       "file": "manifest.json"
     },
     {
@@ -102,6 +117,41 @@
       "file": "conv_<id>/meta.json"
     },
     {
+      "description": "speaker handoffs per minute of complete aligned recording, excluding short overlapping backchannels",
+      "field": "turns_per_minute",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "true when this folder is one kept stretch of a longer recording",
+      "field": "is_segment",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "pseudonymous ID of the recording this stretch was cut from; null when not a segment",
+      "field": "source_conversation_id",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "0-based position among the kept stretches of that recording; null when not a segment",
+      "field": "segment_index",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "how many kept stretches that recording was cut into; null when not a segment",
+      "field": "segment_count",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "where this stretch starts on the source recording's clock, in seconds; null when not a segment",
+      "field": "segment_start_seconds",
+      "file": "conv_<id>/meta.json"
+    },
+    {
+      "description": "where this stretch ends on the source recording's clock, in seconds; null when not a segment",
+      "field": "segment_end_seconds",
+      "file": "conv_<id>/meta.json"
+    },
+    {
       "description": "pseudonymous speaker ID",
       "field": "speaker_id",
       "file": "conv_<id>/speaker_<a|b>_meta.json"
@@ -137,7 +187,7 @@
       "file": "conv_<id>/speaker_<a|b>_meta.json"
     },
     {
-      "description": "{ sample_rate (Hz — the rate THIS archive ships; per-archive, not fixed), duration_seconds, bit_depth: 16, channels: 1, integrated_lufs (measured LUFS, nullable), true_peak_dbtp (measured dBTP, nullable) } — audio is delivered un-normalized; loudness + true-peak are measured and reported so you can normalize to your own target, and both are measured on the rendition shipped here rather than on any other",
+      "description": "{ sample_rate (delivered Hz), original_sample_rate (verified native capture Hz), duration_seconds, bit_depth: 16, channels: 1, integrated_lufs (measured LUFS, nullable), true_peak_dbtp (measured dBTP, nullable), loudness_normalization (present only on a normalized archive) } — audio is delivered at its recorded level unless the archive was built with a loudness normalization setting; loudness + true-peak are measured on the rendition shipped here, after any normalization, rather than on any other, so you can normalize to your own target",
       "field": "recording",
       "file": "conv_<id>/speaker_<a|b>_meta.json"
     },
@@ -167,7 +217,7 @@
       "file": "conv_<id>/speaker_<a|b>_meta.json"
     },
     {
-      "description": "measured from THIS track, at the rate this archive ships. The conformance half (noise floor, silence, bandwidth) and the DNSMOS half land independently, so either can be null while the other carries values; the block itself is null only when neither has been measured",
+      "description": "measured from THIS track, at the rate this archive ships. Conformance, DNSMOS, and physical time-series measurements land independently, so one can exist while another is null; the block itself is null only when none exists",
       "field": "audio_metrics",
       "file": "conv_<id>/speaker_<a|b>_meta.json"
     },
@@ -187,28 +237,98 @@
       "file": "conv_<id>/speaker_<a|b>_meta.json"
     },
     {
-      "description": "the highest frequency carrying real energy: the microphone's limit, not the container's. Null where the track is unmeasured, or carried nothing voiced",
+      "description": "effective bandwidth in Hz. Measurement version 4 uses the 99.99% energy cutoff during detected speech. Null when unmeasured or unmeasurable",
       "field": "audio_metrics.effective_bandwidth_hz",
       "file": "conv_<id>/speaker_<a|b>_meta.json"
     },
     {
-      "description": "ITU-T P.835 background-noise median on the 1-5 mean-opinion-score scale, 5 = not noticeable",
+      "description": "ITU-T P.835 background-noise median on the nominal 1-5 mean-opinion-score scale, 5 = not noticeable; calibrated predictions can fall outside this range",
       "field": "audio_metrics.dnsmos_bak_median",
       "file": "conv_<id>/speaker_<a|b>_meta.json"
     },
     {
-      "description": "ITU-T P.835 speech-signal median, 1-5: the voice itself",
+      "description": "ITU-T P.835 speech-signal median, nominal 1-5: the voice itself; calibrated predictions can fall outside this range",
       "field": "audio_metrics.dnsmos_sig_median",
       "file": "conv_<id>/speaker_<a|b>_meta.json"
     },
     {
-      "description": "ITU-T P.835 overall median, 1-5: voice and background together",
+      "description": "ITU-T P.835 overall median, nominal 1-5: voice and background together; calibrated predictions can fall outside this range",
       "field": "audio_metrics.dnsmos_ovr_median",
       "file": "conv_<id>/speaker_<a|b>_meta.json"
     },
     {
       "description": "names the file holding the same three scores over time",
       "field": "audio_metrics.dnsmos_time_series",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "names the file holding SNR, noise floor, and clipping percentage over time",
+      "field": "audio_metrics.signal_metrics_time_series",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "the setting as scope:measure:target, e.g. conversation:rms:-20",
+      "field": "recording.loudness_normalization.setting",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "\"conversation\" = one shared change for every speaker in the conversation; \"track\" = a separate change for each track",
+      "field": "recording.loudness_normalization.scope",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "\"lufs\" = loudness (ITU-R BS.1770), \"rms\" = average level over the whole file including pauses, \"peak\" = the loudest sample",
+      "field": "recording.loudness_normalization.measure",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "the level the setting asks for, e.g. -20",
+      "field": "recording.loudness_normalization.target",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "\"LUFS\" for lufs, \"dBFS\" for rms and peak",
+      "field": "recording.loudness_normalization.unit",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "\"constant_gain\": one volume change for the whole track, with no compression or limiting",
+      "field": "recording.loudness_normalization.method",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "the volume change applied to this track, in dB",
+      "field": "recording.loudness_normalization.gain_db",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "true when the result is within 0.1 dB of the target",
+      "field": "recording.loudness_normalization.target_reached",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "\"clipping\" = the change stopped just below full scale, so the result is below the target; \"unmeasurable\" = nothing to measure, so the track is unchanged; null when the target was reached",
+      "field": "recording.loudness_normalization.limited_by",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "the conversation level in the chosen measure before the change; null for per-track settings",
+      "field": "recording.loudness_normalization.conversation_before",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "the conversation level in the chosen measure after the change; null for per-track settings",
+      "field": "recording.loudness_normalization.conversation_after",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "{ lufs, rms_dbfs, sample_peak_dbfs } of this track before the change",
+      "field": "recording.loudness_normalization.track_before",
+      "file": "conv_<id>/speaker_<a|b>_meta.json"
+    },
+    {
+      "description": "{ lufs, rms_dbfs, sample_peak_dbfs } of this track as delivered",
+      "field": "recording.loudness_normalization.track_after",
       "file": "conv_<id>/speaker_<a|b>_meta.json"
     },
     {
@@ -277,19 +397,109 @@
       "file": "conv_<id>/speaker_<a|b>_dnsmos.json"
     },
     {
-      "description": "background-noise score per measurement, 1-5 (5 = not noticeable). Entry i covers [i*step_seconds, i*step_seconds+measurement_seconds) on the delivered timeline; null where the audio held too little speech to score",
+      "description": "background-noise score per measurement, nominal 1-5 (5 = not noticeable); calibrated predictions can fall outside this range. Entry i covers [i*step_seconds, i*step_seconds+measurement_seconds) on the delivered timeline; null where the audio held too little speech to score",
       "field": "bak[]",
       "file": "conv_<id>/speaker_<a|b>_dnsmos.json"
     },
     {
-      "description": "speech-signal score per measurement, 1-5; null on the same entries as bak",
+      "description": "speech-signal score per measurement, nominal 1-5; calibrated predictions can fall outside this range; null on the same entries as bak",
       "field": "sig[]",
       "file": "conv_<id>/speaker_<a|b>_dnsmos.json"
     },
     {
-      "description": "overall score per measurement, 1-5; null on the same entries as bak",
+      "description": "overall score per measurement, nominal 1-5; calibrated predictions can fall outside this range; null on the same entries as bak",
       "field": "ovr[]",
       "file": "conv_<id>/speaker_<a|b>_dnsmos.json"
+    },
+    {
+      "description": "stable pseudonymous conversation ID",
+      "field": "conversation_id",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "which speaker stem (seat or scripted role)",
+      "field": "speaker_index",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "version of this signal-metrics file shape",
+      "field": "schema_version",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "versioned measurement method",
+      "field": "method",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "sample rate of the measured delivered audio",
+      "field": "sample_rate_hz",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "duration of the measured track",
+      "field": "duration_seconds",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "seconds of audio each value describes",
+      "field": "measurement_seconds",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "seconds between consecutive values",
+      "field": "step_seconds",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "number of entries in each metric array",
+      "field": "measurement_count",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "analysis-frame duration used for speech and floor measurements",
+      "field": "frame_seconds",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "local context used to estimate the noise floor",
+      "field": "noise_floor_context_seconds",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "frames at or above this exact-zero share are excluded from level measurements",
+      "field": "max_zero_fraction",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "minimum live non-speech evidence required before SNR and noise floor are measurable",
+      "field": "min_live_noise_frames",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "levels at or below this converter floor count as digital silence",
+      "field": "min_real_noise_floor_dbfs",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "absolute normalized sample level counted as clipped",
+      "field": "clipping_threshold",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "signal-to-noise ratio in dB per measurement; null without measurable speech or room tone",
+      "field": "snr_db[]",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "local noise floor in dBFS per measurement; null where no real room tone is measurable",
+      "field": "noise_floor_dbfs[]",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
+    },
+    {
+      "description": "percentage of samples at or above clipping_threshold per measurement",
+      "field": "clipping_pct[]",
+      "file": "conv_<id>/speaker_<a|b>_signal_metrics.json"
     }
   ]
 }

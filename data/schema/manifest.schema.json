@@ -1,6 +1,16 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
+  "if": {
+    "properties": {
+      "dataset_version": {
+        "const": "2.0"
+      }
+    },
+    "required": [
+      "dataset_version"
+    ]
+  },
   "properties": {
     "archive_contents": {
       "description": "\"full\" or \"incremental\"",
@@ -42,6 +52,65 @@
       },
       "type": "array"
     },
+    "loudness_normalization": {
+      "description": "present only when the archive was built with a loudness normalization setting: { setting, scope (\"conversation\" or \"track\"), measure (\"lufs\", \"rms\" or \"peak\"), target, unit, method (\"constant_gain\"), version }",
+      "properties": {
+        "measure": {
+          "enum": [
+            "lufs",
+            "rms",
+            "peak"
+          ],
+          "type": "string"
+        },
+        "method": {
+          "const": "constant_gain",
+          "type": "string"
+        },
+        "scope": {
+          "enum": [
+            "conversation",
+            "track"
+          ],
+          "type": "string"
+        },
+        "setting": {
+          "pattern": "^(conversation|track):(lufs|rms|peak):(0|-[1-9][0-9]?)$",
+          "type": "string"
+        },
+        "target": {
+          "type": "integer"
+        },
+        "unit": {
+          "enum": [
+            "LUFS",
+            "dBFS"
+          ],
+          "type": "string"
+        },
+        "version": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "setting",
+        "scope",
+        "measure",
+        "target",
+        "unit",
+        "method",
+        "version"
+      ],
+      "type": "object"
+    },
+    "measurement_schema_version": {
+      "description": "audio measurement method version",
+      "type": "integer"
+    },
+    "sample_rate": {
+      "description": "sample rate of every delivered audio file, in Hz",
+      "type": "integer"
+    },
     "total_conversations": {
       "description": "number of conversations",
       "type": "integer"
@@ -60,12 +129,24 @@
     "generated_at",
     "archive_contents",
     "audio_format",
+    "sample_rate",
     "total_conversations",
     "total_duration_seconds",
     "languages",
     "conversation_ids",
     "transcript_schema_version"
   ],
+  "then": {
+    "properties": {
+      "measurement_schema_version": {
+        "minimum": 4,
+        "type": "integer"
+      }
+    },
+    "required": [
+      "measurement_schema_version"
+    ]
+  },
   "title": "manifest.json",
   "type": "object"
 }

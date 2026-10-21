@@ -18,10 +18,11 @@
   },
   "sampleRate": 48000,
   "schemaVersions": {
-    "conformance": 2,
-    "deliveredArchive": "9"
+    "conformance": 4,
+    "deliveredArchive": "16"
   },
   "slug": "open-yap-1k",
+  "sourceVerificationSha256": "424064698608bbadbce1d89c8ac84355a0f8a550b5ebd8b9df4f7ab2a717e8dc",
   "version": "1.0",
   "year": 2026
 }

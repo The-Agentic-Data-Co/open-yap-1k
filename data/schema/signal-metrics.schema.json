@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "clipping_pct": {
+      "description": "percentage of samples at or above clipping_threshold per measurement",
+      "items": {
+        "maximum": 100,
+        "minimum": 0,
+        "type": "number"
+      },
+      "type": "array"
+    },
+    "clipping_threshold": {
+      "const": 0.999,
+      "description": "absolute normalized sample level counted as clipped",
+      "type": "number"
+    },
+    "conversation_id": {
+      "description": "stable pseudonymous conversation ID",
+      "pattern": "^conv_[0-9a-f]{12}$",
+      "type": "string"
+    },
+    "duration_seconds": {
+      "description": "duration of the measured track",
+      "exclusiveMinimum": 0,
+      "type": "number"
+    },
+    "frame_seconds": {
+      "const": 0.02,
+      "description": "analysis-frame duration used for speech and floor measurements",
+      "type": "number"
+    },
+    "max_zero_fraction": {
+      "const": 0.5,
+      "description": "frames at or above this exact-zero share are excluded from level measurements",
+      "type": "number"
+    },
+    "measurement_count": {
+      "description": "number of entries in each metric array",
+      "minimum": 1,
+      "type": "integer"
+    },
+    "measurement_seconds": {
+      "const": 1,
+      "description": "seconds of audio each value describes",
+      "type": "number"
+    },
+    "method": {
+      "const": "yaproom_energy_vad_minstats_v1",
+      "description": "versioned measurement method",
+      "type": "string"
+    },
+    "min_live_noise_frames": {
+      "const": 100,
+      "description": "minimum live non-speech evidence required before SNR and noise floor are measurable",
+      "type": "integer"
+    },
+    "min_real_noise_floor_dbfs": {
+      "const": -90,
+      "description": "levels at or below this converter floor count as digital silence",
+      "type": "number"
+    },
+    "noise_floor_context_seconds": {
+      "const": 1.5,
+      "description": "local context used to estimate the noise floor",
+      "type": "number"
+    },
+    "noise_floor_dbfs": {
+      "description": "local noise floor in dBFS per measurement; null where no real room tone is measurable",
+      "items": {
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "type": "array"
+    },
+    "sample_rate_hz": {
+      "description": "sample rate of the measured delivered audio",
+      "minimum": 1,
+      "type": "integer"
+    },
+    "schema_version": {
+      "const": 1,
+      "description": "version of this signal-metrics file shape",
+      "type": "integer"
+    },
+    "snr_db": {
+      "description": "signal-to-noise ratio in dB per measurement; null without measurable speech or room tone",
+      "items": {
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "type": "array"
+    },
+    "speaker_index": {
+      "description": "which speaker stem (seat or scripted role)",
+      "enum": [
+        "a",
+        "b",
+        "agent",
+        "caller"
+      ],
+      "type": "string"
+    },
+    "step_seconds": {
+      "const": 1,
+      "description": "seconds between consecutive values",
+      "type": "number"
+    }
+  },
+  "required": [
+    "conversation_id",
+    "speaker_index",
+    "schema_version",
+    "method",
+    "sample_rate_hz",
+    "duration_seconds",
+    "measurement_seconds",
+    "step_seconds",
+    "measurement_count",
+    "frame_seconds",
+    "noise_floor_context_seconds",
+    "max_zero_fraction",
+    "min_live_noise_frames",
+    "min_real_noise_floor_dbfs",
+    "clipping_threshold",
+    "snr_db",
+    "noise_floor_dbfs",
+    "clipping_pct"
+  ],
+  "title": "conv_<id>/speaker_<a|b>_signal_metrics.json",
+  "type": "object"
+}
